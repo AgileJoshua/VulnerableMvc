@@ -41,9 +41,12 @@ namespace ConsoleTest.Controllers
                 {
                     while (reader.Read())
                     {
-                        list.Add(String.Format("{ 0 }, { 1 }", reader[0], reader[1]));
+                        list.Add(String.Format("{0}, {1}", reader[0], reader[1]));
                     }
                 }
+                
+                command = new SqlCommand("delete dbo.Orders where name = '" + input + "'", connection);
+                command.ExecuteNonQuery();
             }
             return list;
         }
