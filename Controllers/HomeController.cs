@@ -9,6 +9,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ConsoleTest.Controllers
 {
+    public class AnObject{
+        public void DoStuff(){
+
+        }
+    }
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,13 +25,21 @@ namespace ConsoleTest.Controllers
             connectionString = "";
         }
 
-        public void WireSerialize(string input, System.IO.Stream s)
+        public object WireSerialize(string input, System.IO.Stream s)
         {
             var wire = new Wire.Serializer();
-            wire.Serialize(input, s);
+            var theObject = wire.Deserialize(s);
+            return theObject;
         }
         private object Encode(string input)
         {
+
+            var obj1 = (AnObject)WireSerialize("my data", System.IO.File.OpenRead(input));
+
+            var obj2 = (AnObject)WireSerialize(input, new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(input ?? "")));
+            obj1.DoStuff();
+            obj2.DoStuff();
+
             var encoder = System.Text.Encodings.Web.HtmlEncoder.Create(new System.Text.Encodings.Web.TextEncoderSettings());
             var myObject = new { Text = encoder.Encode(input) };
             return myObject;
@@ -78,7 +91,6 @@ namespace ConsoleTest.Controllers
             }
         }
 
-[HttpPost]
         public IActionResult Index()
         {
             var vulnerableInput = Request.Form["vulnerable"].ToString();
