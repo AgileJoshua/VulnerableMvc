@@ -27,7 +27,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore vulnerable.sln
+        run: dotnet build --no-restore Vulnerable.sln
 
       - name: Convert sarif for uploading to GitHub
         uses: security-code-scan/security-code-scan-results-action@main
