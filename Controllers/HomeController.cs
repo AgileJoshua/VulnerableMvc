@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
 namespace ConsoleTest.Controllers
@@ -20,6 +20,11 @@ namespace ConsoleTest.Controllers
             connectionString = "";
         }
 
+        public void WireSerialize(string input, System.IO.Stream s)
+        {
+            var wire = new Wire.Serializer();
+            wire.Serialize(input, s);
+        }
         private object Encode(string input)
         {
             var encoder = System.Text.Encodings.Web.HtmlEncoder.Create(new System.Text.Encodings.Web.TextEncoderSettings());
@@ -31,7 +36,7 @@ namespace ConsoleTest.Controllers
         {
             var list = new List<string>();
             string queryString =
-                "SELECT OrderID, CustomerID FROM dbo.Orders where name = '" + input +"'";
+                "SELECT OrderID, CustomerID FROM dbo.Orders where name = '" + input + "'";
 
             using(SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -44,18 +49,19 @@ namespace ConsoleTest.Controllers
                         list.Add(String.Format("{0}, {1}", reader[0], reader[1]));
                     }
                 }
-                
+
                 command = new SqlCommand("delete dbo.Orders where name = '" + input + "'", connection);
                 command.ExecuteNonQuery();
             }
             int x = 0;
-            doStuff( ref x);
+            doStuff(ref x);
             return list;
-            
+
         }
 
-        private void doStuff(ref int value){
-        value++;
+        private void doStuff(ref int value)
+        {
+            value++;
         }
 
         public IActionResult Index(string vulnerableInput)
