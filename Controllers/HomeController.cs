@@ -31,7 +31,7 @@ namespace ConsoleTest.Controllers
         {
             var list = new List<string>();
             string queryString =
-                @$"SELECT OrderID, CustomerID FROM dbo.Orders where name = '{input}'";
+                "SELECT OrderID, CustomerID FROM dbo.Orders where name = '" + input +"'";
 
             using(SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -41,7 +41,7 @@ namespace ConsoleTest.Controllers
                 {
                     while (reader.Read())
                     {
-                        list.Add(String.Format(" { 0 }, { 1 }", reader[0], reader[1]));
+                        list.Add(String.Format("{ 0 }, { 1 }", reader[0], reader[1]));
                     }
                 }
             }
