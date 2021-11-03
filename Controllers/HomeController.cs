@@ -81,7 +81,7 @@ namespace ConsoleTest.Controllers
 [HttpPost]
         public IActionResult Index()
         {
-            var vulnerableInput = Request.Form["vulnerable"];
+            var vulnerableInput = Request.Form["vulnerable"].ToString();
 
             try
             {
