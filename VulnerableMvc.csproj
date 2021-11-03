@@ -4,8 +4,21 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-  <PackageReference Include="System.Text.Encodings.Web" Version="4.6.0"/>
-  <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.4" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="4.6.0"/>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <!-- PackageReference Include="SonarAnalyzer.CSharp" Version="8.30.0.37606">
+  <PrivateAssets>all</PrivateAssets>
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+</PackageReference -->
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
-
+  <PropertyGroup>
+    <XEnableNETAnalyzers>true</XEnableNETAnalyzers>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+  </PropertyGroup>
 </Project>

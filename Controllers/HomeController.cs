@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
 namespace ConsoleTest.Controllers
@@ -48,7 +48,14 @@ namespace ConsoleTest.Controllers
                 command = new SqlCommand("delete dbo.Orders where name = '" + input + "'", connection);
                 command.ExecuteNonQuery();
             }
+            int x = 0;
+            doStuff( ref x);
             return list;
+            
+        }
+
+        private void doStuff(ref int value){
+        value++;
         }
 
         public IActionResult Index(string vulnerableInput)
@@ -68,6 +75,22 @@ namespace ConsoleTest.Controllers
         public IActionResult Index()
         {
             var vulnerableInput = Request.Form["vulnerable"];
+
+            try
+            {
+                ViewBag.Encoded = Encode(vulnerableInput);
+                ViewBag.QueryList = Query(vulnerableInput);
+                return View();
+            }
+            catch
+            {
+                return Redirect(vulnerableInput);
+            }
+        }
+
+        public IActionResult Index2()
+        {
+            var vulnerableInput = Request.Query["vulnerable"].ToString();
 
             try
             {
